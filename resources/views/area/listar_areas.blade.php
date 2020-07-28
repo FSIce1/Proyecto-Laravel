@@ -313,6 +313,7 @@
                         //alert(data.responseJSON.errors.nombre_area);
                         $("#mensaje-error").html(data.responseJSON.errors.nombre_area);
                         $("#campo-alertas").fadeIn();
+                        click=false;
                     }
                 });
 
@@ -378,7 +379,7 @@
                         //alert(data.responseJSON.errors.nombre_area);
                         $("#mensaje-error").html(data.responseJSON.errors.nombre_area);
                         $("#campo-alertas").fadeIn();
-
+                        click=false;
                     }
                 });
             }

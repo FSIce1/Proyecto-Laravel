@@ -12,7 +12,7 @@ class CreateAreaTable extends Migration{
             //$table->timestamps();
             $table->increments('id_area');
             $table->string('nombre_area',70);
-            $table->boolean('condicion_area');
+            $table->boolean('condicion_area')->nullable($value = true);
         });
     }
 
