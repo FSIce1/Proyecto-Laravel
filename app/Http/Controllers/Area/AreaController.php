@@ -9,7 +9,7 @@ use Inicio\Http\Controllers\Controller;
 use Inicio\Models\Area\AreaModel;
 
 // TODO: PARA LOS MENSAJES FLASH
-use Illuminate\Support\Facades\Session;
+//use Illuminate\Support\Facades\Session;
 
 // TODO: PARA LA LISTA DE ERRORES
 use Inicio\Http\Requests\Area\AreaFormRequest;
@@ -25,14 +25,42 @@ use Inicio\Models\Marca\MarcaModel;
 
 class AreaController extends Controller{
     
+    /*
     // TODO: LISTO
     public function index(){
         return view('area/listar_areas');
     }
 
-    // TODO: MANDO A CREAR
+    // TODO: MANDO A CREAR - ESTO SE ANULA POR EL MODAL
     public function create(){
         return view('area.crear_area');
+    }
+
+
+    public function show($id){
+
+        $marca = AreaModel::where('id_area', $id)->firstOrFail();
+        
+        return view('area.eliminar_area')->with('marca',$marca);
+
+    }
+    */
+
+    // TODO: LISTAR
+    public function listarAreaAJAX(Request $request){
+
+        if($request->ajax()){
+
+        $areas = AreaModel::select('tb_area.id_area','tb_area.nombre_area','tb_area.condicion_area');
+
+            return datatables($areas)
+            ->addColumn('action','area.actions')
+            ->make(true);
+
+        }
+
+        return view('area/listar_areas');
+    
     }
 
     // TODO: CREA
@@ -58,7 +86,7 @@ class AreaController extends Controller{
     
     }
 
-    // TODO: EDITA
+    // TODO: LLAMAR A MI OBJETO
     public function edit($id){
         
         /*
@@ -72,6 +100,7 @@ class AreaController extends Controller{
 
     }
 
+    // TODO: MODIFICA
     public function update(AreaFormRequest $request, $id){
         
         /*
@@ -108,15 +137,7 @@ class AreaController extends Controller{
 
     }
 
-    
-    public function show($id){
-
-        $marca = AreaModel::where('id_area', $id)->firstOrFail();
-        
-        return view('area.eliminar_area')->with('marca',$marca);
-
-    }
-
+    // TODO: DESTRUYE
     public function destroy($id){
 
         /*
@@ -140,29 +161,9 @@ class AreaController extends Controller{
         }
 
     }
-
-    /** 
-     * ! CON AJAX
-    */
-
     
-    public function listarAreaAJAX(Request $request){
 
-        if($request->ajax()){
-
-        $areas = AreaModel::select('tb_area.id_area','tb_area.nombre_area','tb_area.condicion_area');
-
-            return datatables($areas)
-            ->addColumn('action','area.actions')
-            ->make(true);
-
-        }
-
-        return view('area/listar_areas');
-    
-    }
-
-
+    // TODO: VER GRAFICOS
     public function graficosArea(){
         
         $marcas = MarcaModel::select('marca.id_marca','marca.nombre_marca')->get();
@@ -171,5 +172,6 @@ class AreaController extends Controller{
 
         //return view('area/graficos');
     }
+
 
 }

@@ -8,6 +8,6 @@ use Faker\Generator as Faker;
 $factory->define(AreaModel::class, function (Faker $faker) {
     return [
         'nombre_area' => $faker->name,
-        'condicion_area' => '0'
+        'condicion_area' => rand(0,1)
     ];
 });

@@ -67,14 +67,25 @@ Route::group(['middleware' => ['web']], function () {
 
     //! LO QUE PIDIERON
 
-    // TODO: ÁREAS
-    // ORDEN
-    route::get('area/graficos','Area\AreaController@graficosArea');
-    route::resource('area', 'Area\AreaController');
-    
+        // TODO: ÁREAS
+        // ORDEN
+        route::get('area/graficos','Area\AreaController@graficosArea');
+        route::resource('area', 'Area\AreaController');
+        
 
-    route::get('area','Area\AreaController@listarAreaAJAX')->name('area.listar');
-    
+        route::get('area','Area\AreaController@listarAreaAJAX')->name('area.listar');
+        
+        
+        //TODO: DOCUMENTOS
+        // ORDEN
+        route::get('documento/graficos','Documento\DocumentoController@graficosDocumento');
+        route::resource('documento', 'Documento\DocumentoController');
+        
+        route::get('documento','Documento\DocumentoController@listarDocumentoAJAX')->name('documento.listar');
+        
+
+        
+
     //route::get('listall','Area\AreaController@listall');
 
 

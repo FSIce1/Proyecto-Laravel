@@ -7,6 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class CreateAreaTable extends Migration{
     
     public function up(){
+
         Schema::create('tb_area', function (Blueprint $table) {
             //$table->bigIncrements('id');
             //$table->timestamps();
@@ -14,6 +15,7 @@ class CreateAreaTable extends Migration{
             $table->string('nombre_area',70);
             $table->boolean('condicion_area')->nullable($value = true);
         });
+        
     }
 
     public function down(){

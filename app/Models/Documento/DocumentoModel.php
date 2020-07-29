@@ -6,13 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class DocumentoModel extends Model{
     
-    protected $table = 'tb_documentos';
+    protected $table = 'tb_documento';
 
     protected $primarykey = 'id_documento';
+    
+    public $timestamps = false;
 
     protected $fillable = [
-        'nombre_documento',
-        'archivo_documento'
+        'descripcion_documento',
+        'archivo_documento',
+        'condicion_documento'
     ];
 
 }

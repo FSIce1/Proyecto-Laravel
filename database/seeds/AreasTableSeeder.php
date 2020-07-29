@@ -6,8 +6,6 @@ use Inicio\User;
 
 class AreasTableSeeder extends Seeder{
     public function run(){
-        
         //factory(AreaModel::class,25)->create();
-        
     }
 }

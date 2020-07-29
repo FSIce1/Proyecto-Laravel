@@ -2,9 +2,9 @@
 
 @section('modo', 'Listado')
 
-@section('titulo', 'Área')
+@section('titulo', 'Documento')
 
-@section('titulo-ref', 'Lista de Áreas')
+@section('titulo-ref', 'Lista de Documentos')
 
 @section('texto','busca, elimina, modifica, exporta en las siguiente lista')
 
@@ -18,7 +18,7 @@
 
                 <div class="modal-header">
                     <h4 id="tituloModal" name="tituloModal" class="modal-title">
-                        Agregar Área
+                        Agregar Documento
                     </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fal fa-times"></i></span>
@@ -66,12 +66,12 @@
                             <span class="input-group-text"><i class="fal fa-user fs-xl"></i></span>
                         </div>
 
-                        {!! Form::hidden('id_area', null, ['id' => 'id_area']) !!}
+                        {!! Form::hidden('id_documento', null, ['id' => 'id_documento']) !!}
                     
-                        {!! Form::text('nombre_marca', null, ['id' => 'nombre_area', 'class' => 'form-control',
-                        'placeholder' => 'Ingrese Área...']) !!}
+                        {!! Form::text('descripcion_documento', null, ['id' => 'descripcion_documento', 'class' => 'form-control',
+                        'placeholder' => 'Ingrese Descripción...']) !!}
     
-                        {!! Form::hidden('condicion_area', '0', ['id' => 'condicion_area']) !!}
+                        {!! Form::hidden('condicion_documento', '0', ['id' => 'condicion_documento']) !!}
                     </div>
                 </div>
 
@@ -104,16 +104,12 @@
             </div>
 
             <!-- INICIO LISTA -->
-
-           <div id="lista-areas">
-
-           </div>
-           
-           <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
+            
+        <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
             <thead class="bg-primary-600">
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
+                    <th>Descripción</th>
                     <th>Condición</th>
                     <th>Opciones</th>
                     <!--
@@ -126,7 +122,7 @@
             <tfoot>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
+                    <th>Descripción</th>
                     <th>Condición</th>
                     <th>Opciones</th>
                     <!--
@@ -181,27 +177,13 @@
         // INICIALIZO LISTA
         $('#dt-basic-example').dataTable({
 
-            // TODO: FORMA 2
-
-            /*
-            'serverSide': true,
-            "ajax": "{{ url('api/listall') }}",
-            "columns": [
-                {data: 'id_area'},
-                {data: 'nombre_area'},
-                {data: 'condicion_area'},
-            ],
-            */
-
-            // TODO: FORMA 3
-
             'processing':true,
             'serverSide': true,
-            "ajax": "{{ route('area.listar') }}",
+            "ajax": "{{ route('documento.listar') }}",
             "columns": [
-                {data: 'id_area'},
-                {data: 'nombre_area'},
-                {data: 'condicion_area'},
+                {data: 'id_documento'},
+                {data: 'descripcion_documento'},
+                {data: 'condicion_documento'},
                 {data: 'action', oderable: false, searchable: false},
             ],
 
@@ -265,16 +247,16 @@
             } else {
                 click = true;
                 // DATOS
-                var nombre = $("#nombre_area").val();
-                var condicion = $("#condicion_area").val();
+                var nombre = $("#descripcion_documento").val();
+                var condicion = $("#condicion_documento").val();
                 
                 // TOKEN
                 var token = $("input[name=_token]").val();
 
-                var ruta = "{{ route('area.store') }}";
+                var ruta = "{{ route('documento.store') }}";
 
                 //var datos = $('#form').serialize();
-                var datos = "nombre_area="+nombre+"&condicion_area="+condicion;
+                var datos = "descripcion_documento="+nombre+"&condicion_documento="+condicion;
 
                 $.ajax({
                     url: ruta,
@@ -294,7 +276,7 @@
                             
                             Swal.fire({
                                 type: "success",
-                                title: "Área insertada correctamente",
+                                title: "Documento insertado correctamento",
                                 showConfirmButton: false,
                                 timer: 1500
                             });
@@ -302,17 +284,26 @@
                         } else {
                             Swal.fire({
                                 type: "error",
-                                title: "Área no pudo ser insertada",
+                                title: "Documento no pudo ser insertado",
                                 showConfirmButton: false,
                                 timer: 1500
                             });
                         }
                     },
                     error: function(data){
-                        //console.log('ERROR',data.responseJSON.nombre_area);
-                        //alert(data.responseJSON.errors.nombre_area);
-                        $("#mensaje-error").html(data.responseJSON.errors.nombre_area);
+                        $("#mensaje-error").html(data.responseJSON.errors.descripcion_documento);
                         $("#campo-alertas").fadeIn();
+                        
+                        alert(data.responseJSON.errors.status);
+                        if(data.status == 500){
+                            Swal.fire({
+                                type: "error",
+                                title: "Error interno",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+
                         click=false;
                     }
                 });
@@ -331,17 +322,17 @@
                 //alert("Ya clickeaste mrd");
             } else {
                 // DATOS
-                var id = $("#id_area").val();
-                var nombre = $("#nombre_area").val();
-                var condicion = $("#condicion_area").val();
+                var id = $("#id_documento").val();
+                var nombre = $("#descripcion_documento").val();
+                var condicion = $("#condicion_documento").val();
                 
                 // TOKEN
                 var token = $("input[name=_token]").val();
 
-                var ruta = "{{url('area')}}/"+id+"";
+                var ruta = "{{url('documento')}}/"+id+"";
 
                 //var datos = $('#form').serialize();
-                var datos = "id_area="+id+"&nombre_area="+nombre+"&condicion_area="+condicion;
+                var datos = "id_documento="+id+"&descripcion_documento="+nombre+"&condicion_documento="+condicion;
 
                 $.ajax({
                     url: ruta,
@@ -360,7 +351,7 @@
                             // Muestra alerta
                             Swal.fire({
                                 type: "success",
-                                title: "Área modificada correctamente",
+                                title: "Documento modificado correctamente",
                                 showConfirmButton: false,
                                 timer: 1500
                             });
@@ -368,16 +359,14 @@
                         } else {
                             Swal.fire({
                                 type: "error",
-                                title: "Área no pudo ser modificada",
+                                title: "Documento no pudo ser modificado",
                                 showConfirmButton: false,
                                 timer: 1500
                             });
                         }
                     },
                     error: function(data){
-                        //console.log('ERROR',data.responseJSON.nombre_area);
-                        //alert(data.responseJSON.errors.nombre_area);
-                        $("#mensaje-error").html(data.responseJSON.errors.nombre_area);
+                        $("#mensaje-error").html(data.responseJSON.errors.descripcion_documento);
                         $("#campo-alertas").fadeIn();
                         click=false;
                     }
@@ -418,7 +407,7 @@
                     // SE ELIMINA EL REGISTRO
                     
                     var token = $("input[name=_token]").val();
-                    var ruta = "{{url('area')}}/"+id+"";
+                    var ruta = "{{url('documento')}}/"+id+"";
 
                     $.ajax({
                         url: ruta,
@@ -465,8 +454,6 @@
                             }
                         },
                         error: function(data){
-                            //console.log('ERROR',data.responseJSON.nombre_area);
-                            //alert(data.responseJSON.errors.nombre_area);
                         }
                     });
 
@@ -494,28 +481,27 @@
         
         if(id==0){ // hide()->cerrar, show()->abrir
             
-            document.getElementById("tituloModal").innerHTML = "Nueva Área";
-            $("#condicion_area").val('0');
+            document.getElementById("tituloModal").innerHTML = "Nuevo Documento";
             
             $("#Guardar").show();
             $("#Modificar").hide();
         } else {
             
-            document.getElementById("tituloModal").innerHTML = "Modificar Área";
+            document.getElementById("tituloModal").innerHTML = "Modificar Documento";
             
             $("#Guardar").hide(); 
             $("#Modificar").show();
-            var route = "{{url('area')}}/"+id+"/edit";
+            var route = "{{url('documento')}}/"+id+"/edit";
 
             $.get(route, function(data){
-                $("#id_area").val(data.id_area);
-                $("#nombre_area").val(data.nombre_area);
-                $("#condicion_area").val(data.condicion_area);
+                $("#id_documento").val(data.id_documento);
+                $("#descripcion_documento").val(data.descripcion_documento);
+                $("#condicion_documento").val(data.condicion_documento);
             });
 
         }
         
-        $("#nombre_area").focus();
+        $("#descripcion_documento").focus();
 
     }
 
@@ -528,19 +514,6 @@
     // LIMPIO FORMULARIO
     var limpiarDatos = function(){
         document.getElementById("form").reset();
-    }
-
-    // TODO: FORMA 1
-    var lista = function(){
-
-        $.ajax({
-            type:'get',
-            url: '{{ url('listall') }}',
-            success: function(data){
-                $('#lista-areas').empty().html(data);
-            }
-        });
-        
     }
 
     </script>
