@@ -104,13 +104,19 @@ class DocumentoController extends Controller{
 
     }
 
-    // TODO: DESTRUYE
+    // TODO: ELIMINA
     public function destroy($id){
         
         $documento = DocumentoModel::where('id_documento', $id)->firstOrFail();
 
-        $resultado=$documento->where('id_documento', $id)->delete();
+        $ruta ="archivos/".$documento->nombre_documento; // RUTA A BORRAR
         
+        if(unlink($ruta)){ // BORRO DE MI CARPETA :V
+            // SE ELIMINA
+        }
+
+        $resultado=$documento->where('id_documento', $id)->delete();
+            
         if($resultado){
             return response()->json(['success' => 'true']);
         } else{

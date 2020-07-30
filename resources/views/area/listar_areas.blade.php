@@ -201,7 +201,19 @@
             "columns": [
                 {data: 'id_area'},
                 {data: 'nombre_area'},
-                {data: 'condicion_area'},
+                {data: 'condicion_area',
+                    "searchable": false,
+                    "orderable":false,
+                    "render": function (data, type, row) {
+            
+                    if (row.condicion_area === 0)
+                        return 'Activo';
+                    else 
+                        return 'Inactivo';
+            
+                    }
+            
+                },
                 {data: 'action', oderable: false, searchable: false},
             ],
 

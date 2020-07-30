@@ -139,11 +139,11 @@
         <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
             <thead class="bg-primary-600">
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre Documento</th>
-                    <th>Descripción</th>
-                    <th>Condición</th>
-                    <th>Opciones</th>
+                    <th WIDTH="20">ID</th>
+                    <th WIDTH="50">Nombre Documento</th>
+                    <th WIDTH="100">Descripción</th>
+                    <th WIDTH="20">Condición</th>
+                    <th WIDTH="30">Opciones</th>
                     <!--
                     <th>Modificar</th>
                     <th>Eliminar</th>
@@ -152,17 +152,19 @@
             </thead>
             
             <tfoot>
+                
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre Documento</th>
-                    <th>Descripción</th>
-                    <th>Condición</th>
-                    <th>Opciones</th>
+                    <th WIDTH="20">ID</th>
+                    <th WIDTH="50">Nombre Documento</th>
+                    <th WIDTH="100">Descripción</th>
+                    <th WIDTH="20">Condición</th>
+                    <th WIDTH="30">Opciones</th>
                     <!--
                     <th>Modificar</th>
                     <th>Eliminar</th>
                     -->
                 </tr>
+
             </tfoot>
         </table>
 
@@ -214,8 +216,20 @@
                 {data: 'id_documento'},
                 {data: 'nombre_documento'},
                 {data: 'descripcion_documento'},
-                {data: 'condicion_documento'},
-                {data: 'action', oderable: false, searchable: false},
+                {data: 'condicion_documento',
+                    "searchable": false,
+                    //"orderable":false,
+                    "render": function (data, type, row) {
+            
+                    if (row.condicion_documento === '0')
+                        return 'Activo';
+                    else 
+                        return 'Inactivo';
+            
+                    }
+            
+                },
+                {data: 'action', "orderable": false, searchable: false},
             ],
 
 
