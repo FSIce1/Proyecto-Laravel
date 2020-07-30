@@ -19,10 +19,8 @@ use Yajra\DataTables\Facades\DataTables as DataTables;
 
 class DocumentoController extends Controller{
     
-    public function index(Request $request){
-        return "JAJAJ";       
-    }
 
+    // TODO: LISTAR
     public function listarDocumentoAJAX(Request $request){
 
         if($request->ajax()){
@@ -39,6 +37,7 @@ class DocumentoController extends Controller{
      
     }
 
+    // TODO: CREA
     public function store(DocumentoFormRequest $request){
 
         if($request->ajax()){
@@ -53,6 +52,7 @@ class DocumentoController extends Controller{
 
     }
 
+    // TODO: LLAMAR A MI OBJETO
     public function edit($id){
         $documento = DocumentoModel::where('id_documento', $id)->firstOrFail();
         return response()->json($documento);
@@ -79,13 +79,7 @@ class DocumentoController extends Controller{
 
     }
 
-
-    public function show($id){
-        $documento = DocumentoModel::where('id_documento', $id)->firstOrFail();
-        
-        return view('documento.eliminar_documento')->with('documento',$documento);
-    }
-
+    // TODO: DESTRUYE
     public function destroy($id){
         
         $documento = DocumentoModel::where('id_documento', $id)->firstOrFail();
@@ -98,6 +92,16 @@ class DocumentoController extends Controller{
             return response()->json(['success' => 'false']);
         }
 
+    }
+
+    // TODO: VER GRAFICOS
+    public function graficosDocumentos(){
+        
+        $documentos = DocumentoModel::select('marca.id_documento','marca.nombre_documento')->get();
+
+        return view('documento/graficos')->with('documentos', $documentos);
+
+        //return view('area/graficos');
     }
     
 }

@@ -161,7 +161,6 @@ class AreaController extends Controller{
         }
 
     }
-    
 
     // TODO: VER GRAFICOS
     public function graficosArea(){

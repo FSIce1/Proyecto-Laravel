@@ -14,7 +14,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
 
-                {!! Form::open(['id' => 'form']) !!}
+                {!! Form::open(['id' => 'form','class' => 'needs-validation', 'files' => true]) !!}
 
                 <div class="modal-header">
                     <h4 id="tituloModal" name="tituloModal" class="modal-title">
@@ -27,52 +27,79 @@
 
                 <div class="modal-body">
 
-                    <div id='campo-alertas' class="alert alert-primary alert-dismissible" style="display: none">
-                        <!--
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">
-                                <i class="fal fa-times"></i>
-                            </span>
-                        </button>
-                        -->
-                        <div class="d-flex flex-start w-100">
-                            <div class="mr-2 d-sm-none d-md-block">
-                                <span class="icon-stack icon-stack-lg">
-                                    <i class="base base-6 icon-stack-3x opacity-100 color-primary-500"></i>
-                                    <i class="base base-10 icon-stack-2x opacity-100 color-primary-300 fa-flip-vertical"></i>
-                                    <i class="fal fa-info icon-stack-1x opacity-100 color-white"></i>
-                                </span>
-                            </div>
-                
-                            <div class="d-flex flex-fill">
-                                <div class="flex-fill">
-                                    <span class="h5">Información</span>
-                                    <br/><br/>
-
-                                    <div id='mensaje-error'>
-
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                
-                        </div>
-                    </div>
-                
-
-                    <div class="input-group flex-nowrap">
-
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fal fa-user fs-xl"></i></span>
-                        </div>
-
-                        {!! Form::hidden('id_documento', null, ['id' => 'id_documento']) !!}
                     
-                        {!! Form::text('descripcion_documento', null, ['id' => 'descripcion_documento', 'class' => 'form-control',
+                    {!! Form::hidden('id_documento', null, ['id' => 'id_documento']) !!}
+
+            
+
+                    {!! Form::hidden('condicion_documento', '0', ['id' => 'condicion_documento']) !!}
+            
+                    <!--
+                    <div class="col-md-12 mb-3">
+                        {!! Form::label('id_documento', 'Descripción', ['class'=>'form-label']) !!}
+                        
+                        {!! Form::text('descripcion_documento', null, ['id' => 'descripcion_documento', 'class' => 'form-control id-descripcion',
                         'placeholder' => 'Ingrese Descripción...']) !!}
-    
-                        {!! Form::hidden('condicion_documento', '0', ['id' => 'condicion_documento']) !!}
+                        
+            
+                        <div id='mensaje-error-descripcion' class="invalid-feedback">
+                        </div>
+                        
                     </div>
+
+                    <div class="col-12 mb-3">
+                        <label class="form-label" for="validationTextarea2">Comentario <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="validationTextarea2" placeholder="Ejemplo..." required=""></textarea>
+                        <div class="invalid-feedback">
+                            Por favor ingrese un mensaje en el área de texto.
+                        </div>
+                    </div>
+                    -->
+
+                    
+                    <!--
+                    <div class="form-group">
+                        
+                        {!! Form::label('id_documento', 'Descripción', ['class'=>'form-label']) !!}
+                        
+                        {!! Form::text('descripcion_documento', null, ['id' => 'descripcion_documento', 'class' => 'form-control id-descripcion',
+                        'placeholder' => 'Ingrese Descripción...']) !!}
+                        
+            
+                        <div id='mensaje-error-descripcion' class="invalid-feedback">
+                        </div>
+                        
+                    </div>
+                    -->
+                    
+                    <div class="form-group">
+                        
+                        {!! Form::label('descripcion_documento', 'Descripcion', ['class'=>'form-label']) !!}
+
+                        {!! Form::textarea('descripcion_documento', '', ['id' => 'descripcion_documento', 'class' => 'form-control id-descripcion',
+                        'placeholder' => 'Ingrese Descripción...','rows' => '4']) !!}
+
+                        <div id='mensaje-error-descripcion' class="invalid-feedback">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        
+                        {!! Form::label('archivo_documento', 'Archivo', ['class'=>'form-label']) !!}
+                        
+                        <div class="custom-file">
+
+                            {!! Form::file('archivo_documento', ['id' => 'archivo_documento', 'class' => 'custom-file-input id-archivo']) !!}
+                            
+                            {!! Form::label('archivo_documento', 'Seleccion archivo...', ['class' => 'custom-file-label' ]) !!}
+                            
+                            <div id='mensaje-error-archivo' class="invalid-feedback">
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
 
 
@@ -240,12 +267,18 @@
         $("#Guardar").click(function(event){
         //$("#Guardar").one('click', function (event) { 
            
+               
             // EL DOBLE CLICK
             
             if(click){
                 //alert("Ya clickeaste mrd");
             } else {
+                
                 click = true;
+                
+                var archivo = $('#archivo_documento')[0];
+                //alert(fomr);
+
                 // DATOS
                 var nombre = $("#descripcion_documento").val();
                 var condicion = $("#condicion_documento").val();
@@ -256,13 +289,26 @@
                 var ruta = "{{ route('documento.store') }}";
 
                 //var datos = $('#form').serialize();
-                var datos = "descripcion_documento="+nombre+"&condicion_documento="+condicion;
+                //archivo_documento="+archivo+ "&
+                //var datos = "descripcion_documento="+nombre+ "&condicion_documento="+condicion;
+
+                // Get form
+                var form = $('#form')[0];
+
+                // Create an FormData object
+                var datos = new FormData(form);
+
+                //alert(datos);
+                
+                $("#Guardar").prop("disabled", true);
 
                 $.ajax({
                     url: ruta,
                     headers: {'X-CSRF-TOKEN': token},
                     type: 'post',
-                    datatype: 'json',
+                    //datatype: 'json',
+                    processData: false,
+                    contentType: false,
                     data: datos,
                     success: function(data){
                         if(data.success == 'true'){
@@ -289,27 +335,33 @@
                                 timer: 1500
                             });
                         }
+                        
+                        $("#Guardar").prop("disabled", true);
                     },
                     error: function(data){
-                        $("#mensaje-error").html(data.responseJSON.errors.descripcion_documento);
-                        $("#campo-alertas").fadeIn();
                         
-                        alert(data.responseJSON.errors.status);
-                        if(data.status == 500){
-                            Swal.fire({
-                                type: "error",
-                                title: "Error interno",
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
+                        if(data.responseJSON.errors.descripcion_documento != null){
+                            $('.id-descripcion').addClass('is-invalid');
+                            $("#mensaje-error-descripcion").html(data.responseJSON.errors.descripcion_documento);
+                        } else {
+                            $('.id-descripcion').removeClass('is-invalid');
+                            $("#mensaje-error-descripcion").html('');
                         }
+                            
+                        if(data.responseJSON.errors.archivo_documento != null){
+                            $('.id-archivo').addClass('is-invalid');
+                            $("#mensaje-error-archivo").html(data.responseJSON.errors.archivo_documento);
+                        } else {
+                            $('.id-archivo').removeClass('is-invalid');
+                            $("#mensaje-error-archivo").html('');    
+                        }
+                        
+                        $("#campo-alertas").fadeIn();
 
-                        click=false;
+                        click=false;                        
                     }
                 });
-
             }
-            
 
         });
         
@@ -366,8 +418,12 @@
                         }
                     },
                     error: function(data){
-                        $("#mensaje-error").html(data.responseJSON.errors.descripcion_documento);
-                        $("#campo-alertas").fadeIn();
+                        
+                        if(data.responseJSON.errors.descripcion_documento != null){
+                            $('.id-descripcion').addClass('is-invalid');
+                            $("#mensaje-error-descripcion").html(data.responseJSON.errors.descripcion_documento);
+                        }
+                        
                         click=false;
                     }
                 });
@@ -476,6 +532,13 @@
     var Mostrar = function(id){
 
         $('#default-example-modal').modal('show');
+
+        // LOS CAMPOS DE ERROR
+        $('.id-descripcion').removeClass('is-invalid');
+        $("#mensaje-error-descripcion").html('');
+        $('.id-archivo').removeClass('is-invalid');
+        $("#mensaje-error-archivo").html(''); 
+    
         
         click=false;
         
