@@ -25,7 +25,7 @@ class DocumentoController extends Controller{
 
         if($request->ajax()){
 
-            $documentos = DocumentoModel::select('tb_documento.id_documento','tb_documento.descripcion_documento','tb_documento.condicion_documento');
+            $documentos = DocumentoModel::select('tb_documento.id_documento','tb_documento.nombre_documento','tb_documento.descripcion_documento','tb_documento.condicion_documento');
     
                 return datatables($documentos)
                 ->addColumn('action','documento.actions')
@@ -41,9 +41,34 @@ class DocumentoController extends Controller{
     public function store(DocumentoFormRequest $request){
 
         if($request->ajax()){
-            $resultado = DocumentoModel::create($request->all());
+
+            // COPIA LA EL ARCHIVO EN LA CAPERTA ARCHIVOS(EN ELE PUBLIC)
+            if($request->hasFile('archivo_documento')){
+                $archivo = $request->file('archivo_documento');
+                $nombre = time().$archivo->getClientOriginalName();
+                $archivo->move(public_path().'/archivos/',$nombre);
+                
+                //$request->nombre_documento = $nombre;
+            }
+             
+            $request->nombre_documento = $nombre;
             
-            if($resultado){
+            
+            $documento = new DocumentoModel();
+
+            $documento->id_documento = $request->input('id_documento');
+            $documento->nombre_documento = $nombre;
+            $documento->descripcion_documento = $request->input('descripcion_documento');
+            $documento->archivo_documento = $archivo;
+            $documento->condicion_documento = $request->input('condicion_documento');
+            
+
+            //$documento->save();
+            //$resultado = DocumentoModel::create($request->all());
+
+
+
+            if($documento->save()){
                 return response()->json(['success' => 'true']);
             } else{
                 return response()->json(['success' => 'false']);
@@ -104,4 +129,6 @@ class DocumentoController extends Controller{
         //return view('area/graficos');
     }
     
+
+
 }

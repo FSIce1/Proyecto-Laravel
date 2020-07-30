@@ -30,9 +30,9 @@
                     
                     {!! Form::hidden('id_documento', null, ['id' => 'id_documento']) !!}
 
-            
-
                     {!! Form::hidden('condicion_documento', '0', ['id' => 'condicion_documento']) !!}
+            
+                    {!! Form::hidden('nombre_documento', 'Sin documento.ic', ['id' => 'nombre_documento']) !!}
             
                     <!--
                     <div class="col-md-12 mb-3">
@@ -94,6 +94,10 @@
                             
                             {!! Form::label('archivo_documento', 'Seleccion archivo...', ['class' => 'custom-file-label' ]) !!}
                             
+                            <div id='fichero'>
+
+                            </div>
+
                             <div id='mensaje-error-archivo' class="invalid-feedback">
                             </div>
 
@@ -136,6 +140,7 @@
             <thead class="bg-primary-600">
                 <tr>
                     <th>ID</th>
+                    <th>Nombre Documento</th>
                     <th>Descripción</th>
                     <th>Condición</th>
                     <th>Opciones</th>
@@ -149,6 +154,7 @@
             <tfoot>
                 <tr>
                     <th>ID</th>
+                    <th>Nombre Documento</th>
                     <th>Descripción</th>
                     <th>Condición</th>
                     <th>Opciones</th>
@@ -175,8 +181,6 @@
 
     var click= false;
 
-
-
     // PARA EVITAR EL ENTER
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('input[type=text]').forEach( node => node.addEventListener('keypress', e => {
@@ -187,10 +191,9 @@
       }))
     });
 
-    
-    
-
     $(document).ready(function() {
+
+        
 
         // PRUEBA DE ATAJOS
         $(document).on('keydown', null,'ctrl+y', function(){
@@ -209,6 +212,7 @@
             "ajax": "{{ route('documento.listar') }}",
             "columns": [
                 {data: 'id_documento'},
+                {data: 'nombre_documento'},
                 {data: 'descripcion_documento'},
                 {data: 'condicion_documento'},
                 {data: 'action', oderable: false, searchable: false},
@@ -275,14 +279,13 @@
             } else {
                 
                 click = true;
-                
-                var archivo = $('#archivo_documento')[0];
-                //alert(fomr);
 
-                // DATOS
-                var nombre = $("#descripcion_documento").val();
-                var condicion = $("#condicion_documento").val();
-                
+                    var ruta = $('#archivo_documento').val();
+                    var solo_nombre = ruta.substr(ruta.lastIndexOf('\\') + 1).split('.')[0];
+                    var extension = ruta.substr(ruta.lastIndexOf('.') + 1);
+                   
+                    
+
                 // TOKEN
                 var token = $("input[name=_token]").val();
 
@@ -292,15 +295,11 @@
                 //archivo_documento="+archivo+ "&
                 //var datos = "descripcion_documento="+nombre+ "&condicion_documento="+condicion;
 
-                // Get form
+                // Obtendo formulario
                 var form = $('#form')[0];
 
-                // Create an FormData object
+                // Crea un FormData Object
                 var datos = new FormData(form);
-
-                //alert(datos);
-                
-                $("#Guardar").prop("disabled", true);
 
                 $.ajax({
                     url: ruta,

@@ -1,6 +1,6 @@
 
 <td>
-    <a href="documentos/" class="btn btn-warning btn-icon rounded-circle" download>
+    <a href="archivos/{{$nombre_documento}}" class="btn btn-warning btn-icon rounded-circle" download>
         <i class="fal fa-download"></i>
     </a>
 </td>

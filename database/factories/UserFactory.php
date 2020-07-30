@@ -29,6 +29,7 @@ $factory->define(AreaModel::class, function (Faker $faker) {
 
 $factory->define(DocumentoModel::class, function (Faker $faker) {
     return [
+        'nombre_documento' => $faker->name,
         'descripcion_documento' => $faker->name,
         'archivo_documento' => null,//imageUrl($width = 640, $height = 480),
         'condicion_documento' =>rand(0,1)

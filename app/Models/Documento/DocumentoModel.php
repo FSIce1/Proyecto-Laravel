@@ -13,6 +13,7 @@ class DocumentoModel extends Model{
     public $timestamps = false;
 
     protected $fillable = [
+        'nombre_documento',
         'descripcion_documento',
         'archivo_documento',
         'condicion_documento'

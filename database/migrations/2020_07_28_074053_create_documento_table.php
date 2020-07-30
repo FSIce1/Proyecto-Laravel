@@ -10,6 +10,7 @@ class CreateDocumentoTable extends Migration{
         Schema::create('tb_documento', function (Blueprint $table) {
             
             $table->increments('id_documento');
+            $table->string('nombre_documento',100);
             $table->text('descripcion_documento');
             $table->binary('archivo_documento')->nullable($value = true);
 
