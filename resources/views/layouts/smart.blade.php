@@ -135,11 +135,11 @@
                         </a>
                     </div>
                     <ul id="js-nav-menu" class="nav-menu">
-
+                    
                     <li class="nav-title">Inicio</li>
 
                     <!-- class="active open"-->
-                        <li class="active open">
+                        <li>
 
                             <a href="#" title="Listado" data-filter-tags="datatables datagrid">
                                 <i class="fal fa-table"></i>
@@ -147,13 +147,13 @@
                             </a>
 
                             <ul>
-                                <li>
+                                <li class="{{ request()->routeIs('documento.listar') ? 'active' : ''}}">
                                     <a href=" {{ url('documento') }}" title="ver Documentos"
                                         data-filter-tags="datatables datagrid export tables pdf excel print csv">
                                         <span class="nav-link-text" data-i18n="nav.datatables_export">Documentos</span>
                                     </a>
                                 </li>
-                                <li class="active">
+                                <li class="{{ request()->routeIs('area.listar') ? 'active' : ''}}">
                                     <a href=" {{ url('area') }}" title="ver Áreas"
                                         data-filter-tags="datatables datagrid export tables pdf excel print csv">
                                         <span class="nav-link-text" data-i18n="nav.datatables_export">Áreas</span>
@@ -165,16 +165,22 @@
 
                         <li>
 
-                            <a href="#" title="Listado" data-filter-tags="datatables datagrid">
+                            <a href="#" title="Listado" data-filter-tags="estadísticas">
                                 <i class="fal fa-table"></i>
                                 <span class="nav-link-text" data-i18n="nav.datatables">Estadíticas</span>
                             </a>
 
                             <ul>
-                                <li>
+                                <li class="{{ request()->routeIs('area.graficos') ? 'active' : ''}}">
                                     <a href=" {{ url('area/graficos') }}" title="Ver estadísticas de áreas"
-                                        data-filter-tags="datatables datagrid export tables pdf excel print csv">
+                                        data-filter-tags="estadísticas áreas">
                                         <span class="nav-link-text" data-i18n="nav.datatables_export">Áreas</span>
+                                    </a>
+                                </li>
+                                <li class="{{ request()->routeIs('documento.graficos') ? 'active' : ''}}">
+                                    <a href=" {{ url('area/graficos') }}" title="Ver estadísticas de documentos"
+                                        data-filter-tags="estadísticas documentos">
+                                        <span class="nav-link-text" data-i18n="nav.datatables_export">Documentos</span>
                                     </a>
                                 </li>
                             </ul>

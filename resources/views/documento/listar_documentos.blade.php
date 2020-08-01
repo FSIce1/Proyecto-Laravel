@@ -33,44 +33,6 @@
                     {!! Form::hidden('condicion_documento', '0', ['id' => 'condicion_documento']) !!}
             
                     {!! Form::hidden('nombre_documento', 'Sin documento.ic', ['id' => 'nombre_documento']) !!}
-            
-                    <!--
-                    <div class="col-md-12 mb-3">
-                        {!! Form::label('id_documento', 'Descripción', ['class'=>'form-label']) !!}
-                        
-                        {!! Form::text('descripcion_documento', null, ['id' => 'descripcion_documento', 'class' => 'form-control id-descripcion',
-                        'placeholder' => 'Ingrese Descripción...']) !!}
-                        
-            
-                        <div id='mensaje-error-descripcion' class="invalid-feedback">
-                        </div>
-                        
-                    </div>
-
-                    <div class="col-12 mb-3">
-                        <label class="form-label" for="validationTextarea2">Comentario <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="validationTextarea2" placeholder="Ejemplo..." required=""></textarea>
-                        <div class="invalid-feedback">
-                            Por favor ingrese un mensaje en el área de texto.
-                        </div>
-                    </div>
-                    -->
-
-                    
-                    <!--
-                    <div class="form-group">
-                        
-                        {!! Form::label('id_documento', 'Descripción', ['class'=>'form-label']) !!}
-                        
-                        {!! Form::text('descripcion_documento', null, ['id' => 'descripcion_documento', 'class' => 'form-control id-descripcion',
-                        'placeholder' => 'Ingrese Descripción...']) !!}
-                        
-            
-                        <div id='mensaje-error-descripcion' class="invalid-feedback">
-                        </div>
-                        
-                    </div>
-                    -->
                     
                     <div class="form-group">
                         
@@ -95,10 +57,18 @@
                             {!! Form::label('archivo_documento', 'Seleccion archivo...', ['class' => 'custom-file-label' ]) !!}
                             
                             <div id='fichero'>
+                                Cargando
+                            </div>
 
+                            <div id='nombre-fichero'>
+                                Sin seleccionar archivo... 
                             </div>
 
                             <div id='mensaje-error-archivo' class="invalid-feedback">
+                            </div>
+                            
+                            <div id='visorDoc'>
+
                             </div>
 
                         </div>
@@ -193,9 +163,56 @@
       }))
     });
 
-    $(document).ready(function() {
 
+    // PARA EL FILE
+
+    $('#archivo_documento').change(function (e) {
+        var inputArchivo = document.getElementById('archivo_documento');
+        $('#nombre-fichero').text(inputArchivo.files[0].name);
+
+        if(inputArchivo.files && inputArchivo.files[0]){
+            var visor = new FileReader();
+            $('#visorDoc').show();
+
+            visor.onload = function(e){
+                document.getElementById('visorDoc').innerHTML = '<embed src="'+e.target.result+'" WIDTH="460" HEIGHT="400">';
+            };
+
+            visor.readAsDataURL(inputArchivo.files[0]);
+        }
+
+    });
+
+    var window_focus;
+
+    //$("#nombre-fichero").show();
+    $("#fichero").hide();
+
+    $(window).focus(function() {
+        window_focus = true;
+    }).blur(function() {
+        window_focus = false;
+    });
+
+    $( "#archivo_documento" ).bind( "click", function() {
+        $("#fichero").show();
         
+        var loopFocus = setInterval(function() {
+            if (window_focus) {
+                clearInterval(loopFocus);
+                $("#fichero").hide();
+                
+                if ($("#archivo_documento").val() === ''){ // SE CANCELA LA ACCIÓN
+                    $('#nombre-fichero').text('Sin seleccionar archivo... ');
+                    $('#visorDoc').hide(); // cierro mi visor
+                }
+            }
+        }, 500);
+    });
+
+    
+
+    $(document).ready(function() {
 
         // PRUEBA DE ATAJOS
         $(document).on('keydown', null,'ctrl+y', function(){
@@ -283,9 +300,7 @@
 
         // GUARDAR
         $("#Guardar").click(function(event){
-        //$("#Guardar").one('click', function (event) { 
-           
-               
+       
             // EL DOBLE CLICK
             
             if(click){
@@ -362,13 +377,18 @@
                         }
                             
                         if(data.responseJSON.errors.archivo_documento != null){
+                            //$('#nombre-fichero').hide();
+
                             $('.id-archivo').addClass('is-invalid');
                             $("#mensaje-error-archivo").html(data.responseJSON.errors.archivo_documento);
+                            
                         } else {
+                            //$('#nombre-fichero').show();
+                            
                             $('.id-archivo').removeClass('is-invalid');
                             $("#mensaje-error-archivo").html('');    
                         }
-                        
+                        console.log(data.responseJSON.errors);
                         $("#campo-alertas").fadeIn();
 
                         click=false;                        
@@ -551,7 +571,10 @@
         $("#mensaje-error-descripcion").html('');
         $('.id-archivo').removeClass('is-invalid');
         $("#mensaje-error-archivo").html(''); 
-    
+
+        // EN EL FILE
+        $('#nombre-fichero').text('Sin seleccionar archivo... ');
+        $('#visorDoc').hide();
         
         click=false;
         
