@@ -467,7 +467,7 @@
     });
 
     // ELIMINAR
-    var Eliminar = function(id){
+    var Eliminar = function(id,nom){
 
         var swalWithBootstrapButtons = Swal.mixin(
         {
@@ -481,7 +481,7 @@
         swalWithBootstrapButtons
             .fire(
             {
-                title: "¿Desea eliminar?",
+                title: "¿Desea eliminar el archivo "+ nom + "?",
                 //text: "You won't be able to revert this!",
                 type: "warning",
                 showCancelButton: true,

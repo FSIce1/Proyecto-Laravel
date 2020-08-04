@@ -46,6 +46,7 @@ class AreaController extends Controller{
     }
     */
 
+    /*
     // TODO: LISTAR
     public function listarAreaAJAX(Request $request){
 
@@ -62,6 +63,7 @@ class AreaController extends Controller{
         return view('area/listar_areas');
     
     }
+    */
 
     // TODO: CREA
     public function store(AreaFormRequest $request){
@@ -172,5 +174,21 @@ class AreaController extends Controller{
         //return view('area/graficos');
     }
 
+    // TODO: LISTAR
+    public function listarArea(Request $request){
+        
+        if($request->ajax()){
+
+            $areas = AreaModel::select('tb_area.id_area','tb_area.nombre_area','tb_area.condicion_area');
+    
+                return datatables($areas)
+                ->addColumn('action','area.actions')
+                ->make(true);
+    
+        }
+    
+        return view('area/listar_areas');
+        
+    }
 
 }

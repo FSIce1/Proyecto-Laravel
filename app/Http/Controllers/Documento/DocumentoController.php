@@ -20,6 +20,7 @@ use Yajra\DataTables\Facades\DataTables as DataTables;
 class DocumentoController extends Controller{
     
 
+    /*
     // TODO: LISTAR
     public function listarDocumentoAJAX(Request $request){
 
@@ -36,6 +37,7 @@ class DocumentoController extends Controller{
         return view('documento/listar_documentos');
      
     }
+    */
 
     // TODO: CREA
     public function store(DocumentoFormRequest $request){
@@ -126,15 +128,29 @@ class DocumentoController extends Controller{
     }
 
     // TODO: VER GRAFICOS
-    public function graficosDocumentos(){
+    public function graficosDocumento(){
         
-        $documentos = DocumentoModel::select('marca.id_documento','marca.nombre_documento')->get();
+        $documentos = DocumentoModel::select('tb_documento.id_documento','tb_documento.nombre_documento')->get();
 
-        return view('documento/graficos')->with('documentos', $documentos);
+        return view('documento/graficos_documentos')->with('documentos', $documentos);
 
-        //return view('area/graficos');
     }
     
+    // TODO: LISTAR
+    public function listarDocumentos(Request $request){
+        
+        if($request->ajax()){
 
+            $documentos = DocumentoModel::select('tb_documento.id_documento','tb_documento.nombre_documento','tb_documento.descripcion_documento','tb_documento.condicion_documento');
+    
+                return datatables($documentos)
+                ->addColumn('action','documento.actions')
+                ->make(true);
+    
+            }
+    
+        return view('documento/listar_documentos');
+        
+    }
 
 }

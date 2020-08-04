@@ -139,6 +139,8 @@
                     <li class="nav-title">Inicio</li>
 
                     <!-- class="active open"-->
+                        
+                        <!--
                         <li>
 
                             <a href="#" title="Listado" data-filter-tags="datatables datagrid">
@@ -162,6 +164,34 @@
                             </ul>
 
                         </li>
+                        -->
+
+                        <li>
+                        
+                            <a href="#" title="Listado" data-filter-tags="listado">
+                                <i class="fal fa-table"></i>
+                                <span class="nav-link-text" data-i18n="nav.datatables">Listado</span>
+                            </a>
+
+                            <ul>
+
+                                <li class="{{ request()->routeIs('documento.listar') ? 'active' : ''}}">
+                                    <a href=" {{ url('documento/listar') }}" title="Ver listado de documentos"
+                                        data-filter-tags="lista de  documentos">
+                                        <span class="nav-link-text" data-i18n="nav.datatables_export">Lista Documentos</span>
+                                    </a>
+                                </li>
+                                
+                                <li class="{{ request()->routeIs('area.listar') ? 'active' : ''}}">
+                                    <a href=" {{ url('area/listar') }}" title="Ver lista de áreas"
+                                        data-filter-tags="lista de áreas">
+                                        <span class="nav-link-text" data-i18n="nav.datatables_export">Lista Áreas</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                            
+                        </li>  
 
                         <li>
 
@@ -171,18 +201,21 @@
                             </a>
 
                             <ul>
+                                
                                 <li class="{{ request()->routeIs('area.graficos') ? 'active' : ''}}">
                                     <a href=" {{ url('area/graficos') }}" title="Ver estadísticas de áreas"
                                         data-filter-tags="estadísticas áreas">
                                         <span class="nav-link-text" data-i18n="nav.datatables_export">Áreas</span>
                                     </a>
                                 </li>
+                                
                                 <li class="{{ request()->routeIs('documento.graficos') ? 'active' : ''}}">
-                                    <a href=" {{ url('area/graficos') }}" title="Ver estadísticas de documentos"
+                                    <a href=" {{ url('documento/graficos') }}" title="Ver estadísticas de documentos"
                                         data-filter-tags="estadísticas documentos">
                                         <span class="nav-link-text" data-i18n="nav.datatables_export">Documentos</span>
                                     </a>
                                 </li>
+
                             </ul>
 
                         </li>

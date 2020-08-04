@@ -6,9 +6,9 @@
 
 @section('modo', 'Gráficos')
 
-@section('titulo', 'Área')
+@section('titulo', 'Documento')
 
-@section('titulo-ref', 'Gráficos de Áreas')
+@section('titulo-ref', 'Gráficos de Documentos')
 
 @section('texto','estadísticas actuales sobre los graficos')
 
@@ -18,7 +18,7 @@
         <div class="panel-content">
             
             <div class="panel-tag">
-                LE HICE DE MARCAS PORQUE ÁREAS TIENE MUCHOS DATOS :V
+                Gráfico de prueba - Documentos
             </div>
 
             <div id="pieChart">
@@ -43,49 +43,46 @@
             pieChart();
         });
 
-        /* pie chart */
-        var pieChart = function()
-            {
-                var config = {
-                    type: 'pie',
-                    data:
+        var pieChart = function(){
+            var config = {
+                type: 'pie',
+                data:
+                {
+                    datasets: [
                     {
-                        datasets: [
-                        {
-                            data: [
-                                @foreach($marcas as $marca)
-                                {{ $marca->id_marca }},
-                                @endforeach
-                            ],
-                            backgroundColor: [
-                                myapp_get_color.primary_200,
-                                myapp_get_color.primary_400,
-                                myapp_get_color.success_50,
-                                myapp_get_color.success_300,
-                                myapp_get_color.success_500
-                            ],
-                            label: 'My dataset' // for legend
-                        }],
-                        labels: [
-                            @foreach($marcas as $marca)
-                            '{{ $marca->nombre_marca }}',
+                        data: [
+                            @foreach($documentos as $documento)
+                            {{ $documento->id_documento }},
                             @endforeach
-                        ]
-                    },
-                    options:
+                        ],
+                        backgroundColor: [
+                            myapp_get_color.primary_200,
+                            myapp_get_color.primary_400,
+                            myapp_get_color.success_50,
+                            myapp_get_color.success_300,
+                            myapp_get_color.success_500
+                        ],
+                        label: 'My dataset' // for legend
+                    }],
+                    labels: [
+                        @foreach($documentos as $documento)
+                        '{{ $documento->nombre_documento }}',
+                        @endforeach
+                    ]
+                },
+                options:
+                {
+                    responsive: true,
+                    legend:
                     {
-                        responsive: true,
-                        legend:
-                        {
-                            display: true,
-                            position: 'bottom',
-                        }
+                        display: true,
+                        position: 'bottom',
                     }
-                };
-                new Chart($("#pieChart > canvas").get(0).getContext("2d"), config);
-            }
-            /* pie chart -- end */
-
+                }
+            };
+            new Chart($("#pieChart > canvas").get(0).getContext("2d"), config);
+        }
+        
 
         var polarArea = function(){
             var config = {
